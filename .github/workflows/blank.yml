@@ -27,7 +27,7 @@ jobs:
         run: dotnet build
 
       - name: Executando testes unitários
-        run:  dotnet test .\FiapTechChallenge.Tests\FiapTechChallenge.Tests.csproj
+        run:  dotnet test ./FiapTechChallenge.Tests/FiapTechChallenge.Tests.csproj
 
       - name: Mensagem final
         run: echo Integração finalizada com sucesso
