@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Realizando a busca do código-fonte
+      - uses: actions/checkout@v4
+
+      - name: Configurando a versão .NET do projeto
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Instalando as dependências
+        run: dotnet restore
+
+      - name: Compilando o projeto
+        run: dotnet build
+
+      - name: Executando testes unitários
+        run:  dotnet test .\FiapTechChallenge.Tests\FiapTechChallenge.Tests.csproj
+
+      - name: Mensagem final
+        run: echo Integração finalizada com sucesso
