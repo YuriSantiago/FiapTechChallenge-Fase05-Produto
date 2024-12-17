@@ -29,7 +29,6 @@ namespace FiapTechChallenge.IntegrationTests
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            //Program.IsFromTest = true;
 
             builder.ConfigureTestServices(services =>
             {
