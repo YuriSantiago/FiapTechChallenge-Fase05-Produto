@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiapTechChallenge.Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiapTechChallenge.Tests", "FiapTechChallenge.Tests\FiapTechChallenge.Tests.csproj", "{912EC0A5-4152-4141-9D32-A66AE2AA1A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiapTechChallenge.IntegrationTests", "FiapTechChallenge.IntegrationTests\FiapTechChallenge.IntegrationTests.csproj", "{5DF5A565-664E-4EF7-9644-2377026105C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiapTechChallenge.IntegrationTests", "FiapTechChallenge.IntegrationTests\FiapTechChallenge.IntegrationTests.csproj", "{5DF5A565-664E-4EF7-9644-2377026105C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{D5AB2904-4C65-4DD1-A23D-DCE015E5CB0B}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
