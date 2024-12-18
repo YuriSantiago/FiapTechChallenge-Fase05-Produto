@@ -10,7 +10,7 @@ on:
 
 jobs:
   BuildTesting:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: Realizando a busca do código-fonte
@@ -34,7 +34,7 @@ jobs:
         run: echo Integração finalizada com sucesso
 
   DockerHub:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: Realizando a busca do código-fonte
@@ -45,3 +45,11 @@ jobs:
         with:
          username: 'yssbento'
          password: ${{secrets.DOCKERHUB_PASSWORD}}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.10.0
+        with:
+          context: .
+          tags: 'yssbento/fiaptechchallenge-fase02:latest'
+          push: true
+          
