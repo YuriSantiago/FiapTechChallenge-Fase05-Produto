@@ -1,27 +1,56 @@
 ﻿using FiapTechChallenge.Core.DTOs;
 using FiapTechChallenge.Core.Requests.Create;
+using FiapTechChallenge.Core.Requests.Update;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace FiapTechChallenge.IntegrationTests.Controllers
 {
     public class ContatoControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-        //private readonly CustomWebApplicationFactory<Program> _factory;
         private readonly HttpClient _client;
 
         public ContatoControllerTests(CustomWebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
-            //_factory = factory;
-            //_client = _factory.CreateClient(new WebApplicationFactoryClientOptions
-            //{
-            //    AllowAutoRedirect = false
-            //});
+        }
+
+        [Fact]
+        public async Task Create_ShouldReturnCreated_WhenContatoIsValid()
+        {
+            // Arrange
+            var contatoRequest = new ContatoRequest
+            {
+                Nome = "João Silva",
+                Telefone = "987654321",
+                Email = "joao@example.com",
+                DDD = 11
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/contato", contatoRequest);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Create_ShouldReturnBadRequest_WhenContatoIsInvalid()
+        {
+            // Arrange
+            var contatoRequest = new ContatoRequest
+            {
+                Nome = "",
+                Telefone = "987654321",
+                Email = "joao@example.com",
+                DDD = 11
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/contato", contatoRequest);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -63,138 +92,60 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             var response = await _client.GetAsync($"/contato/{nonExistentId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
-        public async Task Create_ShouldReturnCreated_WhenContatoIsValid()
+        public async Task Update_ShouldReturnOK_WhenContatoIsValid()
         {
-            //// Arrange
-            //var newContato = new ContatoDTO
-            //{
-            //    Nome = "Novo Contato",
-            //    Telefone = "999999999",
-            //    Email = "novo@contato.com",
-            //    DataInclusao = DateTime.UtcNow,
-            //    Regiao = new RegiaoDTO
-            //    {
-            //        Id = 1,
-            //        DataInclusao = DateTime.Now,
-            //        DDD = 11,
-            //        Descricao = "São Paulo"
-            //    }
-            //};
-
-            //// Act
-            //var response = await _client.PostAsJsonAsync("/api/contatos", newContato);
-
-            //// Assert
-            //Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-            //var createdContato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
-            //Assert.NotNull(createdContato);
-            //Assert.Equal(newContato.Nome, createdContato.Nome);
             // Arrange
-            var contatoRequest = new ContatoRequest
+            var contatoUpdateRequest = new ContatoUpdateRequest
             {
-                Nome = "João Silva",
-                Telefone = "987654321",
-                Email = "joao@example.com",
+                Id = 1,
+                Nome = "Yuri",
+                Telefone = "999999999",
+                Email = "yuri@email.com",
                 DDD = 11
             };
 
             // Act
-            var response = await _client.PostAsJsonAsync("/contato", contatoRequest);
+            var response = await _client.PutAsJsonAsync("contato/", contatoUpdateRequest);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenContatoIsInvalid()
+        public async Task Update_ShouldReturnBadRequest_WhenIdDoesNotExist()
         {
             // Arrange
-            var invalidContato = new ContatoDTO
+            var contatoUpdateRequest = new ContatoUpdateRequest
             {
-                Id = 1,
-                Nome = "",
-                Telefone = "11999999999",
+                Id = 9999,
+                Nome = "Yuri",
+                Telefone = "999999999",
                 Email = "yuri@email.com",
-                DataInclusao = DateTime.Now,
-                Regiao = new RegiaoDTO { Id = 1, DDD = 11, Descricao = "São Paulo", DataInclusao = DateTime.Now }
+                DDD = 11
             };
 
             // Act
-            var response = await _client.PostAsJsonAsync("/contato", invalidContato);
+           var response = await _client.PutAsJsonAsync("contato/", contatoUpdateRequest);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
-        public async Task Update_ShouldReturnNoContent_WhenContatoIsValid()
+        public async Task Delete_ShouldReturnOk_WhenIdExists()
         {
             // Arrange
-            var existingContato = new ContatoDTO
-            {
-                Id = 1, // Certifique-se de usar um ID válido
-                Nome = "Contato Atualizado",
-                Telefone = "988888888",
-                Email = "atualizado@contato.com",
-                DataInclusao = DateTime.UtcNow,
-                Regiao = new RegiaoDTO
-                {
-                    Id = 1,
-                    DataInclusao = DateTime.Now,
-                    DDD = 11,
-                    Descricao = "São Paulo"
-                }
-            };
-
-            // Act
-            var response = await _client.PutAsJsonAsync($"contato/{existingContato.Id}", existingContato);
-
-            // Assert
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        }
-
-        [Fact]
-        public async Task Update_ShouldReturnNotFound_WhenIdDoesNotExist()
-        {
-            // Arrange
-            var nonExistentContato = new ContatoDTO
-            {
-                Id = 9999, 
-                Nome = "Contato Não Existe",
-                Telefone = "977777777",
-                Email = "naoexiste@contato.com",
-                DataInclusao = DateTime.UtcNow,
-                Regiao = new RegiaoDTO
-                {
-                    Id = 1,
-                    DataInclusao = DateTime.Now,
-                    DDD = 11,
-                    Descricao = "São Paulo"
-                }
-            };
-
-            // Act
-            var response = await _client.PutAsJsonAsync($"/contato/{nonExistentContato.Id}", nonExistentContato);
-
-            // Assert
-            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-        }
-
-        [Fact]
-        public async Task Delete_ShouldReturnNoContent_WhenIdExists()
-        {
-            // Arrange
-            var existingId = 1; // Certifique-se de ter um ID válido no banco de testes
+            var existingId = 2;
 
             // Act
             var response = await _client.DeleteAsync($"/Contato/{existingId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
@@ -207,7 +158,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             var response = await _client.DeleteAsync($"/contato/{nonExistentId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
 }

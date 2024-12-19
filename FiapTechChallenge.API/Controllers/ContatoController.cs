@@ -1,10 +1,7 @@
-﻿using FiapTechChallenge.Core.DTOs;
-using FiapTechChallenge.Core.Interfaces.Repositories;
-using FiapTechChallenge.Core.Interfaces.Services;
+﻿using FiapTechChallenge.Core.Interfaces.Services;
 using FiapTechChallenge.Core.Requests.Create;
 using FiapTechChallenge.Core.Requests.Update;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FiapTechChallenge.API.Controllers
 {
@@ -39,7 +36,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -61,7 +58,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -83,7 +80,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -114,7 +111,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
 
         }
@@ -140,7 +137,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -162,7 +159,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 

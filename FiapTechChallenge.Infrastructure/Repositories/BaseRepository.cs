@@ -47,7 +47,7 @@ namespace FiapTechChallenge.Infrastructure.Repositories
         public T GetById(int id)
         {
             var entidade = _dbSet.FirstOrDefault(e => e.Id == id);
-            return entidade is null ? throw new KeyNotFoundException($"Entidade com o ID {id} não encontrada.") : entidade;
+            return entidade is null ? throw new Exception($"Entidade com o ID {id} não encontrada.") : entidade;
         }
 
         public T GetById(int id, Func<IQueryable<T>, IQueryable<T>> include)
