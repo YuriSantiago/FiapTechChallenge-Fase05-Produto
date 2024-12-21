@@ -34,7 +34,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -56,7 +56,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -83,7 +83,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -108,7 +108,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
 
         }
@@ -134,7 +134,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
@@ -156,7 +156,7 @@ namespace FiapTechChallenge.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = ex.Message });
             }
         }
 
