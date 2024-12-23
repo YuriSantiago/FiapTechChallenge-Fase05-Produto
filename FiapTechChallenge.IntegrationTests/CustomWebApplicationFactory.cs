@@ -58,43 +58,75 @@ namespace FiapTechChallenge.IntegrationTests
 
     public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
+        //protected override void ConfigureWebHost(IWebHostBuilder builder)
+        //{
+        //    base.ConfigureWebHost(builder);
+
+        //    builder.ConfigureTestServices(async services =>
+        //    {
+        //        // Remove o DbContext existente
+        //        var dbContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+        //        services.Remove(dbContext);
+
+        //        // Remove a conexão existente
+        //        var dbConnection = services.SingleOrDefault(x => x.ServiceType == typeof(DbConnection));
+        //        services.Remove(dbConnection);
+
+        //        // Configura a conexão SQLite em memória
+        //        services.AddSingleton<DbConnection>(container =>
+        //        {
+        //            var connection = new SqliteConnection("DataSource=:memory:");
+        //            connection.Open();
+        //            return connection;
+        //        });
+
+        //        services.AddDbContext<ApplicationDbContext>((container, options) =>
+        //        {
+        //            var connection = container.GetRequiredService<DbConnection>();
+        //            options.UseSqlite(connection);
+        //        });
+
+        //        // Garante que o banco de dados seja seedado
+        //        using var scope = services.BuildServiceProvider().CreateScope();
+        //        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        //        await context.Database.EnsureCreatedAsync(); // Cria o esquema do banco de dados
+        //        await SeedDatabase(context); // Executa o Seed
+        //    });
+
+        //    builder.UseEnvironment("Development");
+        //}
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            base.ConfigureWebHost(builder);
-
-            builder.ConfigureTestServices(async services =>
+            builder.ConfigureServices(services =>
             {
-                // Remove o DbContext existente
-                var dbContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-                services.Remove(dbContext);
-
-                // Remove a conexão existente
-                var dbConnection = services.SingleOrDefault(x => x.ServiceType == typeof(DbConnection));
-                services.Remove(dbConnection);
-
-                // Configura a conexão SQLite em memória
-                services.AddSingleton<DbConnection>(container =>
+                // Remove o contexto existente
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+                if (descriptor != null)
                 {
-                    var connection = new SqliteConnection("DataSource=:memory:");
-                    connection.Open();
-                    return connection;
+                    services.Remove(descriptor);
+                }
+
+                // Adiciona um contexto SQLite em memória
+                services.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    options.UseSqlite("DataSource=:memory:");
                 });
 
-                services.AddDbContext<ApplicationDbContext>((container, options) =>
-                {
-                    var connection = container.GetRequiredService<DbConnection>();
-                    options.UseSqlite(connection);
-                });
+                // Configura o banco de dados
+                var sp = services.BuildServiceProvider();
+                using var scope = sp.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
 
-                // Garante que o banco de dados seja seedado
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.OpenConnection(); // Abre a conexão
+                db.Database.EnsureCreated(); // Cria o esquema do banco
 
-                await context.Database.EnsureCreatedAsync(); // Cria o esquema do banco de dados
-                await SeedDatabase(context); // Executa o Seed
+                // Seed dos dados
+                SeedDatabase(db).Wait();
             });
-
-            builder.UseEnvironment("Development");
         }
 
         private async Task SeedDatabase(ApplicationDbContext context)
