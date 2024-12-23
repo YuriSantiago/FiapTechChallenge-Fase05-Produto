@@ -30,6 +30,9 @@ jobs:
       - name: Executando testes unitários
         run:  dotnet test ./FiapTechChallenge.Tests/FiapTechChallenge.Tests.csproj
 
+      - name: Executando testes de integração
+        run:  dotnet test ./FiapTechChallenge.IntegrationTests/FiapTechChallenge.IntegrationTests.csproj
+
       - name: Mensagem final
         run: echo Integração finalizada com sucesso
 
