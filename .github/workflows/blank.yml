@@ -11,7 +11,7 @@ on:
 jobs:
   BuildTesting:
     runs-on: ubuntu-24.04
-    
+
     steps:
       - name: Realizando a busca do código-fonte
         uses: actions/checkout@v4
