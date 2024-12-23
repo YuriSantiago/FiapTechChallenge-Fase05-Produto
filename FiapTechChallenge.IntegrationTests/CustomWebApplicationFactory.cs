@@ -101,7 +101,7 @@ namespace FiapTechChallenge.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
-                // Remove o contexto do banco de dados existente
+                // Remove a configuração do contexto de banco de dados existente (se houver)
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
                 if (descriptor != null)
@@ -109,20 +109,13 @@ namespace FiapTechChallenge.IntegrationTests
                     services.Remove(descriptor);
                 }
 
-                // Configura o SQL Server em memória para os testes
-                //services.AddDbContext<ApplicationDbContext>(options =>
-                //{
-                //    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                //});
-
-                // Configuração de banco de dados em memória do SQL Server
-                services.AddDbContext<ApplicationDbContext>((context, options) =>
+                // Configura o banco de dados em memória para os testes
+                services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    // Usando o SQL Server InMemory
-                    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=InMemoryDbForTesting;Trusted_Connection=True;");
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
-                // Garante que o banco de dados esteja criado
+                // Garante que o banco de dados em memória seja criado
                 var sp = services.BuildServiceProvider();
                 using (var scope = sp.CreateScope())
                 {
