@@ -12,26 +12,7 @@ jobs:
   BuildTesting:
     runs-on: ubuntu-24.04
 
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        ports:
-          - 1433:1433
-        options: >-
-          --env 'ACCEPT_EULA=Y'
-          --env 'MSSQL_SA_PASSWORD=YourStrong!Passw0rd'
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P YourStrong!Passw0rd -Q \"SELECT 1\" -S localhost"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --user root
-    
     steps:
-      - name: Verificando a instalação do Docker
-        run: |
-          docker --version
-          docker info
-    
       - name: Realizando a busca do código-fonte
         uses: actions/checkout@v4
 
