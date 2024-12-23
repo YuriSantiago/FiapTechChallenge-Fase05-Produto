@@ -26,6 +26,11 @@ jobs:
           --health-retries 5
     
     steps:
+      - name: Verificando a instalação do Docker
+        run: |
+          docker --version
+          docker info
+    
       - name: Realizando a busca do código-fonte
         uses: actions/checkout@v4
 
