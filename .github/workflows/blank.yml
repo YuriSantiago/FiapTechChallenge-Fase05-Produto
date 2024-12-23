@@ -11,6 +11,19 @@ on:
 jobs:
   BuildTesting:
     runs-on: ubuntu-24.04
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+          - 1433:1433
+        options: >-
+          --env 'ACCEPT_EULA=Y'
+          --env 'MSSQL_SA_PASSWORD=YourStrong!Passw0rd'
+          --health-cmd '/opt/mssql-tools/bin/sqlcmd -U sa -P YourStrong!Passw0rd -Q "select 1"' 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
     
     steps:
       - name: Realizando a busca do código-fonte
@@ -26,12 +39,6 @@ jobs:
 
       - name: Compilando o projeto
         run: dotnet build
-
-      - name: Configurando SQL Server no GitHub Actions
-        run: |
-          sudo apt-get install -y mssql-server
-          sudo /opt/mssql/bin/mssql-conf setup
-          sudo systemctl restart mssql-server
 
       - name: Executando testes unitários
         run:  dotnet test ./FiapTechChallenge.Tests/FiapTechChallenge.Tests.csproj
