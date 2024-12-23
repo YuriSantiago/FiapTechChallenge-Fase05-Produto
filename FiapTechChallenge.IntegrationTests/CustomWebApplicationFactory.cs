@@ -110,10 +110,10 @@ namespace FiapTechChallenge.IntegrationTests
                 }
 
                 // Configura o SQL Server em memória para os testes
-                services.AddDbContext<ApplicationDbContext>(options =>
-                {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                });
+                //services.AddDbContext<ApplicationDbContext>(options =>
+                //{
+                //    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                //});
 
                 // Configuração de banco de dados em memória do SQL Server
                 services.AddDbContext<ApplicationDbContext>((context, options) =>
