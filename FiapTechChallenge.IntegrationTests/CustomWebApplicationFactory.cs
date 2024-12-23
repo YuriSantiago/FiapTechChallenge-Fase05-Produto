@@ -132,8 +132,11 @@ namespace FiapTechChallenge.IntegrationTests
         private async Task SeedDatabase(ApplicationDbContext context)
         {
             // Truncate ou limpa os dados da tabela
-            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Regiao");
+            //await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Regiao");
             //await context.Database.ExecuteSqlRawAsync("DELETE FROM sqlite_sequence WHERE name='Regiao';");
+
+            context.Regioes.RemoveRange(context.Regioes);
+            await context.SaveChangesAsync();
 
             // Insere os dados iniciais
             context.Regioes.Add(new Regiao

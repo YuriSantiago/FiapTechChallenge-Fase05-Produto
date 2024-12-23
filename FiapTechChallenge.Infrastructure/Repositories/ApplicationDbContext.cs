@@ -9,15 +9,19 @@ namespace FiapTechChallenge.Infrastructure.Repositories
 
         private readonly string? _connectionString;
 
-        public ApplicationDbContext()
-        {
-            IConfiguration configuration = new ConfigurationBuilder()
-                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                 .AddJsonFile("appsettings.json")
-                 .Build();
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+      : base(options)
+        { }
 
-            _connectionString = configuration.GetConnectionString("ConnectionString");
-        }
+        //public ApplicationDbContext()
+        //{
+        //    IConfiguration configuration = new ConfigurationBuilder()
+        //         .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+        //         .AddJsonFile("appsettings.json")
+        //         .Build();
+
+        //    _connectionString = configuration.GetConnectionString("ConnectionString");
+        //}
 
         public ApplicationDbContext(string connectionString)
         {
