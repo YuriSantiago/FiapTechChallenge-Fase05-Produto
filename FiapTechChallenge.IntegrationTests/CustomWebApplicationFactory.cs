@@ -101,7 +101,7 @@ namespace FiapTechChallenge.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
-                // Remove o contexto existente
+                // Remove o contexto do banco de dados existente
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
                 if (descriptor != null)
@@ -109,31 +109,38 @@ namespace FiapTechChallenge.IntegrationTests
                     services.Remove(descriptor);
                 }
 
-                // Adiciona um contexto SQLite em memória
+                // Configura o SQL Server em memória para os testes
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlite("DataSource=:memory:");
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
-                // Configura o banco de dados
+                // Configuração de banco de dados em memória do SQL Server
+                services.AddDbContext<ApplicationDbContext>((context, options) =>
+                {
+                    // Usando o SQL Server InMemory
+                    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=InMemoryDbForTesting;Trusted_Connection=True;");
+                });
+
+                // Garante que o banco de dados esteja criado
                 var sp = services.BuildServiceProvider();
-                using var scope = sp.CreateScope();
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                using (var scope = sp.CreateScope())
+                {
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    db.Database.EnsureCreated(); // Cria o banco de dados em memória
 
-                db.Database.OpenConnection(); // Abre a conexão
-                db.Database.EnsureCreated(); // Cria o esquema do banco
-
-                // Seed dos dados
-                SeedDatabase(db).Wait();
+                    // Adiciona dados de seed (se necessário)
+                    SeedDatabase(db).Wait();
+                }
             });
         }
 
         private async Task SeedDatabase(ApplicationDbContext context)
         {
             // Truncate ou limpa os dados da tabela
-            await context.Database.ExecuteSqlRawAsync("DELETE FROM Regiao");
-            await context.Database.ExecuteSqlRawAsync("DELETE FROM sqlite_sequence WHERE name='Regiao';");
+            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Regiao");
+            //await context.Database.ExecuteSqlRawAsync("DELETE FROM sqlite_sequence WHERE name='Regiao';");
 
             // Insere os dados iniciais
             context.Regioes.Add(new Regiao
