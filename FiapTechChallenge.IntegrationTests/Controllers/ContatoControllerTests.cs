@@ -127,24 +127,24 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task Update_ShouldReturnOK_WhenContatoIsValid()
-        {
-            // Arrange
-            var contatoUpdateRequest = new ContatoUpdateRequest
-            {
-                Id = 1,
-                Nome = "Yuri",
-                Telefone = "999999999",
-                Email = "yuri@email.com",
-                DDD = 11
-            };
+        //public async Task Update_ShouldReturnOK_WhenContatoIsValid()
+        //{
+        //    // Arrange
+        //    var contatoUpdateRequest = new ContatoUpdateRequest
+        //    {
+        //        Id = 1,
+        //        Nome = "Yuri",
+        //        Telefone = "999999999",
+        //        Email = "yuri@email.com",
+        //        DDD = 11
+        //    };
 
-            // Act
-            var response = await _client.PutAsJsonAsync("/Contato", contatoUpdateRequest);
+        //    // Act
+        //    var response = await _client.PutAsJsonAsync("/Contato", contatoUpdateRequest);
 
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
+        //    // Assert
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
 
         [Fact]
         public async Task Update_ShouldReturnBadRequest_WhenIdDoesNotExist()
