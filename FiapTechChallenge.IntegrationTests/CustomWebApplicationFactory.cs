@@ -101,31 +101,23 @@ namespace FiapTechChallenge.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
-                // Remove a configuração do contexto de banco de dados existente (se houver)
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
-                // Configura o banco de dados em memória para os testes
+                if (descriptor != null)
+                    services.Remove(descriptor);
+
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
-                // Garante que o banco de dados em memória seja criado
                 var sp = services.BuildServiceProvider();
-                using (var scope = sp.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                    db.Database.EnsureCreated(); // Cria o banco de dados em memória
+                using var scope = sp.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                db.Database.EnsureCreated();
 
-                    // Adiciona dados de seed (se necessário)
-                    SeedDatabase(db).Wait();
-                }
+                SeedDatabase(db).Wait();
             });
         }
 
