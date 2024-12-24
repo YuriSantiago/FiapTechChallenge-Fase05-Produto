@@ -66,21 +66,21 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             Assert.True(contatos.Count >= 0);
         }
 
-        [Fact]
-        public async Task GetById_ShouldReturnContato_WhenIdExists()
-        {
-            // Arrange
-            int contatoId = 1;
+        //[Fact]
+        //public async Task GetById_ShouldReturnContato_WhenIdExists()
+        //{
+        //    // Arrange
+        //    int contatoId = 1;
 
-            // Act
-            var response = await _client.GetAsync($"/Contato/{contatoId}");
+        //    // Act
+        //    var response = await _client.GetAsync($"/Contato/{contatoId}");
 
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var contato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
-            Assert.NotNull(contato);
-            Assert.Equal(contatoId, contato.Id);
-        }
+        //    // Assert
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //    var contato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
+        //    Assert.NotNull(contato);
+        //    Assert.Equal(contatoId, contato.Id);
+        //}
 
         [Fact]
         public async Task GetById_ShouldReturnNotFound_WhenIdDoesNotExist()

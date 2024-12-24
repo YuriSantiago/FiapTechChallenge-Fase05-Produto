@@ -5,53 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FiapTechChallenge.IntegrationTests
 {
-    //public class CustomWebApplicationFactory : WebApplicationFactory<Program>
-    //{
-    //    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    //    {
-    //        builder.ConfigureServices(services =>
-    //        {
-    //            // Substitui o ApplicationDbContext para usar o InMemoryDatabase em vez de SQL Server
-    //            services.AddDbContext<ApplicationDbContext>(options =>
-    //                options.UseInMemoryDatabase("InMemoryDbForTesting"));
-
-    //            // Aqui você pode substituir outros serviços, se necessário.
-    //        });
-    //    }
-    //}
-
-    //public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
-    //{
-    //    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    //    {
-    //        base.ConfigureWebHost(builder);
-
-    //        builder.ConfigureTestServices(services =>
-    //        {
-    //            // Remove o contexto de banco de dados existente
-    //            var dbContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-
-    //            if (dbContext is not null)
-    //                services.Remove(dbContext);
-
-    //            // Configura o SQLite em memória
-    //            services.AddDbContext<ApplicationDbContext>(options =>
-    //            {
-    //                options.UseSqlite("DataSource=:memory:");
-    //            });
-
-    //            // Certifique-se de inicializar o banco de dados antes de usá-lo
-    //            using var serviceProvider = services.BuildServiceProvider();
-    //            using var scope = serviceProvider.CreateScope();
-    //            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //            db.Database.OpenConnection(); // Abre a conexão do SQLite em memória
-    //            db.Database.EnsureCreated(); // Garante que o esquema está criado
-    //        });
-
-    //        builder.UseEnvironment("Development");
-    //    }
-
-    //}
 
     public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
@@ -122,9 +75,6 @@ namespace FiapTechChallenge.IntegrationTests
             });
 
             await context.SaveChangesAsync();
-
-            Console.WriteLine("Seeded Contatos: " + context.Contatos.Count());
-            Console.WriteLine("Seeded Regioes: " + context.Regioes.Count());
         }
     }
 
