@@ -132,7 +132,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             };
 
             // Act
-            var response = await _client.PutAsJsonAsync("Regiao/", regiaoUpdateRequest);
+            var response = await _client.PutAsJsonAsync("/Regiao", regiaoUpdateRequest);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -150,7 +150,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             };
 
             // Act
-            var response = await _client.PutAsJsonAsync("Regiao/", regiaoUpdateRequest);
+            var response = await _client.PutAsJsonAsync("/Regiao", regiaoUpdateRequest);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);

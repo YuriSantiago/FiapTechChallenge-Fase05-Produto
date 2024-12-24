@@ -1,5 +1,4 @@
 ﻿using FiapTechChallenge.Core.DTOs;
-using FiapTechChallenge.Core.Entities;
 using FiapTechChallenge.Core.Requests.Create;
 using FiapTechChallenge.Core.Requests.Update;
 using FluentAssertions;
@@ -141,7 +140,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             };
 
             // Act
-            var response = await _client.PutAsJsonAsync("Contato/", contatoUpdateRequest);
+            var response = await _client.PutAsJsonAsync("/Contato", contatoUpdateRequest);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -161,7 +160,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             };
 
             // Act
-            var response = await _client.PutAsJsonAsync("Contato/", contatoUpdateRequest);
+            var response = await _client.PutAsJsonAsync("/Contato", contatoUpdateRequest);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
