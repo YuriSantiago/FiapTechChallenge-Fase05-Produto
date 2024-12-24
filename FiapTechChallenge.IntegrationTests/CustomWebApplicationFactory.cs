@@ -122,6 +122,9 @@ namespace FiapTechChallenge.IntegrationTests
             });
 
             await context.SaveChangesAsync();
+
+            Console.WriteLine("Seeded Contatos: " + context.Contatos.Count());
+            Console.WriteLine("Seeded Regioes: " + context.Regioes.Count());
         }
     }
 
