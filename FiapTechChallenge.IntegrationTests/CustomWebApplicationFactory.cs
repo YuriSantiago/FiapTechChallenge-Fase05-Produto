@@ -20,7 +20,7 @@ namespace FiapTechChallenge.IntegrationTests
 
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase(Guid.NewGuid().ToString());
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
                 var sp = services.BuildServiceProvider();
