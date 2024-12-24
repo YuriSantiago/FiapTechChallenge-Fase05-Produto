@@ -66,35 +66,6 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             Assert.True(contatos.Count >= 0);
         }
 
-        //[Fact]
-        //public async Task GetById_ShouldReturnContato_WhenIdExists()
-        //{
-        //    // Arrange
-        //    int contatoId = 1;
-
-        //    // Act
-        //    var response = await _client.GetAsync($"/Contato/{contatoId}");
-
-        //    // Assert
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //    var contato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
-        //    Assert.NotNull(contato);
-        //    Assert.Equal(contatoId, contato.Id);
-        //}
-
-        [Fact]
-        public async Task GetById_ShouldReturnNotFound_WhenIdDoesNotExist()
-        {
-            // Arrange
-            int contatoId = 9999;
-
-            // Act
-            var response = await _client.GetAsync($"/Contato/{contatoId}");
-
-            // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        }
-
         [Fact]
         public async Task GetByDDD_ShouldReturnContato_WhenIdExists()
         {
@@ -123,7 +94,36 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var contatos = await response.Content.ReadFromJsonAsync<List<ContatoDTO>>();
-            Assert.True(contatos?.Count == 0);
+            Assert.Equal(0, contatos?.Count);
+        }
+
+        [Fact]
+        public async Task GetById_ShouldReturnContato_WhenIdExists()
+        {
+            // Arrange
+            int contatoId = 1;
+
+            // Act
+            var response = await _client.GetAsync($"/Contato/{contatoId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var contato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
+            Assert.NotNull(contato);
+            Assert.Equal(contatoId, contato.Id);
+        }
+
+        [Fact]
+        public async Task GetById_ShouldReturnNotFound_WhenIdDoesNotExist()
+        {
+            // Arrange
+            int contatoId = 9999;
+
+            // Act
+            var response = await _client.GetAsync($"/Contato/{contatoId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
