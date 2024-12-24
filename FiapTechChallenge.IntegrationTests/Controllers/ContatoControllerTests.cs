@@ -107,7 +107,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             var response = await _client.GetAsync($"/Contato/{contatoId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var contato = await response.Content.ReadFromJsonAsync<ContatoDTO>();
             Assert.NotNull(contato);
             Assert.Equal(contatoId, contato.Id);
