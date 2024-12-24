@@ -70,7 +70,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task GetById_ShouldReturnContato_WhenIdExists()
         {
             // Arrange
-            var contatoId = 1;
+            int contatoId = 1;
 
             // Act
             var response = await _client.GetAsync($"/Contato/{contatoId}");
@@ -86,7 +86,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task GetById_ShouldReturnNotFound_WhenIdDoesNotExist()
         {
             // Arrange
-            var contatoId = 9999;
+            int contatoId = 9999;
 
             // Act
             var response = await _client.GetAsync($"/Contato/{contatoId}");
@@ -170,7 +170,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task Delete_ShouldReturnOk_WhenIdExists()
         {
             // Arrange
-            var contatoId = 2;
+            int contatoId = 2;
 
             // Act
             var response = await _client.DeleteAsync($"/Contato/{contatoId}");
@@ -183,7 +183,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task Delete_ShouldReturnNotFound_WhenIdDoesNotExist()
         {
             // Arrange
-            var contatoId = 9999;
+            int contatoId = 9999;
 
             // Act
             var response = await _client.DeleteAsync($"/Contato/{contatoId}");

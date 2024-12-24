@@ -1,10 +1,7 @@
 ﻿using FiapTechChallenge.Core.Entities;
 using FiapTechChallenge.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
 
 namespace FiapTechChallenge.IntegrationTests
 {
@@ -58,44 +55,6 @@ namespace FiapTechChallenge.IntegrationTests
 
     public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
-        //protected override void ConfigureWebHost(IWebHostBuilder builder)
-        //{
-        //    base.ConfigureWebHost(builder);
-
-        //    builder.ConfigureTestServices(async services =>
-        //    {
-        //        // Remove o DbContext existente
-        //        var dbContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-        //        services.Remove(dbContext);
-
-        //        // Remove a conexão existente
-        //        var dbConnection = services.SingleOrDefault(x => x.ServiceType == typeof(DbConnection));
-        //        services.Remove(dbConnection);
-
-        //        // Configura a conexão SQLite em memória
-        //        services.AddSingleton<DbConnection>(container =>
-        //        {
-        //            var connection = new SqliteConnection("DataSource=:memory:");
-        //            connection.Open();
-        //            return connection;
-        //        });
-
-        //        services.AddDbContext<ApplicationDbContext>((container, options) =>
-        //        {
-        //            var connection = container.GetRequiredService<DbConnection>();
-        //            options.UseSqlite(connection);
-        //        });
-
-        //        // Garante que o banco de dados seja seedado
-        //        using var scope = services.BuildServiceProvider().CreateScope();
-        //        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        //        await context.Database.EnsureCreatedAsync(); // Cria o esquema do banco de dados
-        //        await SeedDatabase(context); // Executa o Seed
-        //    });
-
-        //    builder.UseEnvironment("Development");
-        //}
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -119,6 +78,7 @@ namespace FiapTechChallenge.IntegrationTests
 
                 SeedDatabase(db).Wait();
             });
+
         }
 
         private static async Task SeedDatabase(ApplicationDbContext context)
