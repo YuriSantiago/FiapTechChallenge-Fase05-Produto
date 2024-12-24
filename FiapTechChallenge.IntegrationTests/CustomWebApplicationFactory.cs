@@ -129,28 +129,44 @@ namespace FiapTechChallenge.IntegrationTests
             });
         }
 
-        private async Task SeedDatabase(ApplicationDbContext context)
+        private static async Task SeedDatabase(ApplicationDbContext context)
         {
-            // Truncate ou limpa os dados da tabela
-            //await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Regiao");
-            //await context.Database.ExecuteSqlRawAsync("DELETE FROM sqlite_sequence WHERE name='Regiao';");
-
+          
+            context.Contatos.RemoveRange(context.Contatos);
             context.Regioes.RemoveRange(context.Regioes);
+
             await context.SaveChangesAsync();
 
-            // Insere os dados iniciais
-            context.Regioes.Add(new Regiao
+            var regiaoSP = context.Regioes.Add(new Regiao
             {
                 DDD = 11,
                 Descricao = "São Paulo",
                 DataInclusao = DateTime.UtcNow
             });
 
-            context.Regioes.Add(new Regiao
+            var regiaoRJ = context.Regioes.Add(new Regiao
             {
                 DDD = 21,
                 Descricao = "Rio de Janeiro",
                 DataInclusao = DateTime.UtcNow
+            });
+
+            context.Contatos.Add(new Contato
+            {
+                Nome = "Yuri",
+                Telefone = "999999999",
+                Email = "yuri@email.com",
+                RegiaoId = 1,
+                Regiao = regiaoSP.Entity
+            });
+
+            context.Contatos.Add(new Contato
+            {
+                Nome = "Yago",
+                Telefone = "999999999",
+                Email = "yago@email.com",
+                RegiaoId = 2,
+                Regiao = regiaoRJ.Entity
             });
 
             await context.SaveChangesAsync();

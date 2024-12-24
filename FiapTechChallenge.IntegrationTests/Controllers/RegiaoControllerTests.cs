@@ -1,8 +1,6 @@
 ﻿using FiapTechChallenge.Core.DTOs;
-using FiapTechChallenge.Core.Entities;
 using FiapTechChallenge.Core.Requests.Create;
 using FiapTechChallenge.Core.Requests.Update;
-using FiapTechChallenge.Infrastructure.Repositories;
 using FluentAssertions;
 using System.Net;
 
@@ -68,7 +66,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task GetById_ShouldReturnRegiao_WhenIdExists()
         {
             // Arrange
-            var regiaoId = 1;
+            int regiaoId = 1;
 
             // Act
             var response = await _client.GetAsync($"/Regiao/{regiaoId}");
@@ -84,13 +82,42 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task GetById_ShouldReturnBadRequest_WhenIdDoesNotExist()
         {
             // Arrange
-            var nonExistentId = 9999;
+            int regiaoId = 9999;
 
             // Act
-            var response = await _client.GetAsync($"/Regiao/{nonExistentId}");
+            var response = await _client.GetAsync($"/Regiao/{regiaoId}");
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetByDDD_ShouldReturnRegiao_WhenIdExists()
+        {
+            // Arrange
+            short ddd = 11;
+
+            // Act
+            var response = await _client.GetAsync($"/Regiao/getbyDDD/{ddd}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var regiao = await response.Content.ReadFromJsonAsync<RegiaoDTO>();
+            Assert.NotNull(regiao);
+            Assert.Equal(ddd, regiao.DDD);
+        }
+
+        [Fact]
+        public async Task GetByDDD_ShouldReturnNotFound_WhenIdDoesNotExist()
+        {
+            // Arrange
+            short ddd = 9999;
+
+            // Act
+            var response = await _client.GetAsync($"/Regiao/getbyDDD/{ddd}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
@@ -133,10 +160,10 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task Delete_ShouldReturnOk_WhenIdExists()
         {
             // Arrange
-            var existingId = 2;
+            int regiaoId = 2;
 
             // Act
-            var response = await _client.DeleteAsync($"/Regiao/{existingId}");
+            var response = await _client.DeleteAsync($"/Regiao/{regiaoId}");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -146,10 +173,10 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
         public async Task Delete_ShouldReturnBadRequest_WhenIdDoesNotExist()
         {
             // Arrange
-            var nonExistentId = 9999;
+            int regiaoID = 9999;
 
             // Act
-            var response = await _client.DeleteAsync($"/Regiao/{nonExistentId}");
+            var response = await _client.DeleteAsync($"/Regiao/{regiaoID}");
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
