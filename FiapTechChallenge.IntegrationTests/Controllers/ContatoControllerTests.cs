@@ -126,7 +126,7 @@ namespace FiapTechChallenge.IntegrationTests.Controllers
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
+        //[Fact]
         //public async Task Update_ShouldReturnOK_WhenContatoIsValid()
         //{
         //    // Arrange
