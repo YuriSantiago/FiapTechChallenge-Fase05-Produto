@@ -6,6 +6,7 @@ using FiapTechChallenge.Infrastructure.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Prometheus;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,10 +34,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
 }, ServiceLifetime.Scoped);
 
-//builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
 builder.Services.AddScoped<IRegiaoRepository, RegiaoRepository>();
 builder.Services.AddScoped<IRegiaoService, RegiaoService>();
-
 builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
 builder.Services.AddScoped<IContatoService, ContatoService>();
 
@@ -51,7 +50,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegiaoRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<RegiaoUpdateRequestValidator>();
 
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,12 +59,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMetricServer();
+
+app.UseHttpMetrics(options =>
+{
+    options.AddRouteParameter("route");
+});
+
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 public partial class Program { }
