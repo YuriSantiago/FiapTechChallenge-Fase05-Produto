@@ -11,16 +11,7 @@ on:
 jobs:
   BuildTesting:
     runs-on: ubuntu-24.04
-
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        ports:
-          - 1433:1433
-        env:
-          ACCEPT_EULA: Y
-          MSSQL_SA_PASSWORD: 1StrongPwd!!
-
+    
     steps:
       - name: Realizando a busca do código-fonte
         uses: actions/checkout@v4
