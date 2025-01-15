@@ -20,7 +20,7 @@ jobs:
         env:
           ACCEPT_EULA: Y
           MSSQL_SA_PASSWORD: 1StrongPwd!!
-
+          
     steps:
       - name: Realizando a busca do código-fonte
         uses: actions/checkout@v4
