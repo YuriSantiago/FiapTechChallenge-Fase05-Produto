@@ -60,12 +60,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMetricServer();
-
-app.UseHttpMetrics(options =>
-{
-    options.AddRouteParameter("route");
-});
-
+app.UseHttpMetrics();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
