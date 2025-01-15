@@ -13,16 +13,6 @@ namespace FiapTechChallenge.Infrastructure.Repositories
       : base(options)
         { }
 
-        //public ApplicationDbContext()
-        //{
-        //    IConfiguration configuration = new ConfigurationBuilder()
-        //         .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-        //         .AddJsonFile("appsettings.json")
-        //         .Build();
-
-        //    _connectionString = configuration.GetConnectionString("ConnectionString");
-        //}
-
         public ApplicationDbContext(string connectionString)
         {
             _connectionString = connectionString;
