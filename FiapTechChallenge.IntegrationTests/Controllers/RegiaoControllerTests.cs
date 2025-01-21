@@ -1,8 +1,6 @@
 ﻿using FiapTechChallenge.Core.DTOs;
-using FiapTechChallenge.Core.Entities;
 using FiapTechChallenge.Core.Requests.Create;
 using FiapTechChallenge.Core.Requests.Update;
-using FiapTechChallenge.Infrastructure.Repositories;
 using FluentAssertions;
 using System.Net;
 
