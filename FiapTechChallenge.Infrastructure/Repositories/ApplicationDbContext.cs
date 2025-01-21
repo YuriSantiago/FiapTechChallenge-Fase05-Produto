@@ -1,6 +1,5 @@
 ﻿using FiapTechChallenge.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace FiapTechChallenge.Infrastructure.Repositories
 {
