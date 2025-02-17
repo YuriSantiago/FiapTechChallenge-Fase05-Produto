@@ -1,0 +1,6 @@
+@Exclusao_HostAddress = http://localhost:5278
+
+GET {{Exclusao_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
