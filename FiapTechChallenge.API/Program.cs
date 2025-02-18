@@ -11,9 +11,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -23,7 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(x =>
     {
-        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; 
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         x.IncludeXmlComments(xmlPath);
 
