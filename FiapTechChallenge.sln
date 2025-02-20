@@ -18,13 +18,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro", "Cadastro\Cadastro.csproj", "{4D9337C6-B399-46B4-B714-287C19515526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadastro", "Cadastro\Cadastro.csproj", "{4D9337C6-B399-46B4-B714-287C19515526}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consulta", "Consulta\Consulta.csproj", "{D0A859E9-9961-4E72-8829-44ED2721A571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consulta", "Consulta\Consulta.csproj", "{D0A859E9-9961-4E72-8829-44ED2721A571}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atualizacao", "Atualizacao\Atualizacao.csproj", "{6A5CBAB2-4E36-4138-8744-F90A9D8CB0B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atualizacao", "Atualizacao\Atualizacao.csproj", "{6A5CBAB2-4E36-4138-8744-F90A9D8CB0B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exclusao", "Exclusao\Exclusao.csproj", "{D31FFBF0-739D-423B-93D2-C34BDB7FD774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exclusao", "Exclusao\Exclusao.csproj", "{D31FFBF0-739D-423B-93D2-C34BDB7FD774}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsultaFunction", "ConsultaFunction\ConsultaFunction.csproj", "{1842D806-0DBD-4070-B0BB-4C13DBB53AB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{D31FFBF0-739D-423B-93D2-C34BDB7FD774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D31FFBF0-739D-423B-93D2-C34BDB7FD774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D31FFBF0-739D-423B-93D2-C34BDB7FD774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1842D806-0DBD-4070-B0BB-4C13DBB53AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1842D806-0DBD-4070-B0BB-4C13DBB53AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1842D806-0DBD-4070-B0BB-4C13DBB53AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1842D806-0DBD-4070-B0BB-4C13DBB53AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
