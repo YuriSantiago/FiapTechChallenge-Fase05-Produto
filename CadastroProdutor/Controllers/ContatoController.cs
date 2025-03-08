@@ -1,26 +1,36 @@
-﻿using FiapTechChallenge.Core.Interfaces.Services;
-using FiapTechChallenge.Core.Requests.Create;
+﻿using Core.Interfaces.Services;
+using Core.Requests.Create;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Contato")]
+    [Route("/[controller]")]
     public class ContatoController : ControllerBase
     {
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
         private readonly IRegiaoService _regiaoService;
 
-        public ContatoController(IRegiaoService regiaoService)
+        public ContatoController(IBus bus, IConfiguration configuration, IRegiaoService regiaoService)
         {
+            _bus = bus;
+            _configuration = configuration;
             _regiaoService = regiaoService;
         }
 
+        /// <summary>
+        /// Cadastra um novo contato 
+        /// </summary>
+        /// <param name="contatoRequest">Objeto do tipo "ContatoRequest"</param>
+        /// <response code="200">Contato cadastrado com sucesso</response>
+        /// <response code="400">Erro ao cadastrar o contato</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPost]
-        public IActionResult Post([FromBody] ContatoRequest contatoRequest)
+        public async Task<IActionResult> Post([FromBody] ContatoRequest contatoRequest)
         {
 
             if (!ModelState.IsValid)
@@ -33,39 +43,13 @@ namespace CadastroProdutor.Controllers
                 if (regiao is null)
                     return NotFound("DDD não encontrado");
 
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaCadastroContato",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(contatoRequest);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaCadastroContato",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["ContatoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(contatoRequest);
 
                 return Ok();
             }
+
             catch (Exception ex)
             {
                 return BadRequest(new { mensagem = ex.Message });

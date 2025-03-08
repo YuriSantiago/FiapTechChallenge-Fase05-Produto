@@ -1,19 +1,33 @@
-﻿using FiapTechChallenge.Core.Requests.Create;
+﻿using Core.Requests.Create;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text.Json;
-using System.Text;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Regiao")]
+    [Route("/[controller]")]
     public class RegiaoController : ControllerBase
     {
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
 
+        public RegiaoController(IBus bus, IConfiguration configuration)
+        {
+            _bus = bus;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Cadastra uma nova região 
+        /// </summary>
+        /// <param name="regiaoRequest">Objeto do tipo "RegiaoRequest"</param>
+        /// <response code="200">Região cadastrada com sucesso</response>
+        /// <response code="400">Erro ao cadastrar a região</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPost]
-        public IActionResult Post([FromBody] RegiaoRequest regiaoRequest)
+        public async Task<IActionResult> Post([FromBody] RegiaoRequest regiaoRequest)
         {
 
             if (!ModelState.IsValid)
@@ -21,36 +35,9 @@ namespace CadastroProdutor.Controllers
 
             try
             {
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaCadastroRegiao",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(regiaoRequest);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaCadastroRegiao",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["RegiaoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(regiaoRequest);
 
                 return Ok();
             }

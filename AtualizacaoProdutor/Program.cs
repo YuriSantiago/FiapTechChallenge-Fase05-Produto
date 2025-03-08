@@ -1,12 +1,27 @@
-using FiapTechChallenge.Core.Validators;
+using Core.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var configuration = builder.Configuration;
 
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(configuration.GetSection("MassTransit")["Server"], "/", h =>
+        {
+            h.Username(configuration.GetSection("MassTransit")["User"]);
+            h.Password(configuration.GetSection("MassTransit")["Password"]);
+        });
+    });
+});
+
+// Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

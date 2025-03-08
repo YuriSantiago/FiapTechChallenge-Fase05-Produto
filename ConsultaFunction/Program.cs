@@ -1,7 +1,7 @@
-using FiapTechChallenge.Core.Interfaces.Repositories;
-using FiapTechChallenge.Core.Interfaces.Services;
-using FiapTechChallenge.Core.Services;
-using FiapTechChallenge.Infrastructure.Repositories;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
+using Core.Services;
+using Infrastructure.Repositories;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

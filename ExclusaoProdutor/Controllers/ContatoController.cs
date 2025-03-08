@@ -1,52 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
+﻿using Core.Requests.Delete;
+using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Contato")]
+    [Route("/[controller]")]
     public class ContatoController : ControllerBase
     {
 
-        [HttpDelete]
-        public IActionResult Delete([FromRoute] int id)
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
+
+        public ContatoController(IBus bus, IConfiguration configuration)
+        {
+            _bus = bus;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Deleta um contato por Id
+        /// </summary>
+        /// <param name="id">Id do Contato</param>
+        /// <response code="200">Contato deletado com sucesso</response>
+        /// <response code="400">Erro ao deletar o contato</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
             try
             {
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaExclusaoContato",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(id);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaExclusaoContato",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["ContatoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(new ContatoDeleteRequest { Id = id });
 
                 return Ok();
             }

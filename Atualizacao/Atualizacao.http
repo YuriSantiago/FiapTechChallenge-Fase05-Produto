@@ -1,6 +1,0 @@
-@Atualizacao_HostAddress = http://localhost:5014
-
-GET {{Atualizacao_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

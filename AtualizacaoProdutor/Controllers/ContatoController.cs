@@ -1,19 +1,34 @@
-﻿using FiapTechChallenge.Core.Requests.Update;
+﻿using Core.Requests.Update;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Contato")]
+    [Route("/[controller]")]
     public class ContatoController : ControllerBase
     {
-       
+
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
+
+        public ContatoController(IBus bus, IConfiguration configuration)
+        {
+            _bus = bus;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Atualiza as informações de um contato
+        /// </summary>
+        /// <param name="contatoUpdateRequest">Objeto do tipo "ContatoUpdateRequest"</param>
+        /// <response code="200">Contato atualizado com sucesso</response>
+        /// <response code="400">Erro ao atualizar o contato</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPut]
-        public IActionResult Put([FromBody] ContatoUpdateRequest contatoUpdateRequest)
+        public async Task<IActionResult> Put([FromBody] ContatoUpdateRequest contatoUpdateRequest)
         {
 
             if (!ModelState.IsValid)
@@ -21,37 +36,9 @@ namespace CadastroProdutor.Controllers
 
             try
             {
-
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaAtualizacaoContato",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(contatoUpdateRequest);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaAtualizacaoContato",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["ContatoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(contatoUpdateRequest);
 
                 return Ok();
             }

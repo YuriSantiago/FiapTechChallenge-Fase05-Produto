@@ -1,15 +1,28 @@
-using FiapTechChallenge.Core.Interfaces.Repositories;
-using FiapTechChallenge.Core.Interfaces.Services;
-using FiapTechChallenge.Core.Services;
-using FiapTechChallenge.Core.Validators;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
+using Core.Services;
+using Core.Validators;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using FiapTechChallenge.Infrastructure.Repositories;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(configuration.GetSection("MassTransit")["Server"], "/", h =>
+        {
+            h.Username(configuration.GetSection("MassTransit")["User"]);
+            h.Password(configuration.GetSection("MassTransit")["Password"]);
+        });
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -1,19 +1,34 @@
-﻿using FiapTechChallenge.Core.Requests.Update;
+﻿using Core.Requests.Update;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Regiao")]
+    [Route("/[controller]")]
     public class RegiaoController : ControllerBase
     {
 
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
+
+        public RegiaoController(IBus bus, IConfiguration configuration)
+        {
+            _bus = bus;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Atualiza as informações de uma região
+        /// </summary>
+        /// <param name="regiaoUpdateRequest">Objeto do tipo "RegiaoUpdateRequest"</param>
+        /// <response code="200">Região atualizada com sucesso</response>
+        /// <response code="400">Erro ao atualizar a região</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPut]
-        public IActionResult Put([FromBody] RegiaoUpdateRequest regiaoUpdateRequest)
+        public async Task<IActionResult> Put([FromBody] RegiaoUpdateRequest regiaoUpdateRequest)
         {
 
             if (!ModelState.IsValid)
@@ -21,36 +36,9 @@ namespace CadastroProdutor.Controllers
 
             try
             {
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaAtualizacaoRegiao",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(regiaoUpdateRequest);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaAtualizacaoRegiao",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["RegiaoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(regiaoUpdateRequest);
 
                 return Ok();
             }

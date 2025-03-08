@@ -1,52 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
+﻿using Core.Requests.Delete;
+using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroProdutor.Controllers
 {
 
     [ApiController]
-    [Route("/Regiao")]
+    [Route("/[controller]")]
     public class RegiaoController : ControllerBase
     {
 
-        [HttpDelete]
-        public IActionResult Put([FromRoute] int id)
-        {
+        private readonly IBus _bus;
+        private readonly IConfiguration _configuration;
 
+        public RegiaoController(IBus bus, IConfiguration configuration)
+        {
+            _bus = bus;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Deleta uma região por Id
+        /// </summary>
+        /// <param name="id">Id da região</param>
+        /// <response code="200">Região deletada com sucesso</response>
+        /// <response code="400">Erro ao deletar a região</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Put([FromRoute] int id)
+        {
             try
             {
-                var factory = new ConnectionFactory()
-                {
-                    HostName = "localhost",
-                    UserName = "guest",
-                    Password = "guest"
-                };
-
-                using var connection = factory.CreateConnection();
-
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: "filaExclusaoRegiao",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var message = JsonSerializer.Serialize(id);
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish
-                        (
-                         exchange: "",
-                         routingKey: "filaExclusaoRegiao",
-                         basicProperties: null,
-                         body: body
-                        );
-                };
+                var nomeFila = _configuration.GetSection("MassTransit:Queues")["RegiaoQueue"] ?? string.Empty;
+                var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+                await endpoint.Send(new RegiaoDeleteRequest { Id = id });
 
                 return Ok();
             }

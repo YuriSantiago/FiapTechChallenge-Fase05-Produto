@@ -16,8 +16,8 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FiapTechChallenge.Core\FiapTechChallenge.Core.csproj" />
-    <ProjectReference Include="..\FiapTechChallenge.Infrastructure\FiapTechChallenge.Infrastructure.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
