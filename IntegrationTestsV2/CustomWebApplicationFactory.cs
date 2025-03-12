@@ -30,7 +30,7 @@ namespace IntegrationTestsV2
                 var db = scopedServices.GetRequiredService<ApplicationDbContext>();
                 db.Database.EnsureCreated();
 
-                //SeedDatabase(db).Wait();
+                SeedDatabase(db).Wait();
             });
 
         }
