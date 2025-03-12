@@ -31,23 +31,5 @@ namespace IntegrationTestsV2.Cadastro
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task Update_ShouldReturnBadRequest_WhenIdDoesNotExist()
-        //{
-        //    // Arrange
-        //    var regiaoUpdateRequest = new RegiaoUpdateRequest
-        //    {
-        //        Id = 9999,
-        //        DDD = 11,
-        //        Descricao = "São Paulo"
-        //    };
-
-        //    // Act
-        //    var response = await _client.PutAsJsonAsync("/Regiao", regiaoUpdateRequest);
-
-        //    // Assert
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
-
     }
 }

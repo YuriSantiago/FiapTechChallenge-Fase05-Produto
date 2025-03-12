@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace IntegrationTestsV2
 {
@@ -28,7 +29,9 @@ namespace IntegrationTestsV2
                 using var scope = sp.CreateScope();
                 var scopedServices = scope.ServiceProvider;
                 var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                db.Database.EnsureCreated();
+
+                db.Database.EnsureDeleted();  
+                db.Database.EnsureCreated();  
 
                 SeedDatabase(db).Wait();
             });
@@ -40,7 +43,6 @@ namespace IntegrationTestsV2
 
             context.Contatos.RemoveRange(context.Contatos);
             context.Regioes.RemoveRange(context.Regioes);
-
             await context.SaveChangesAsync();
 
             var regiaoSP = context.Regioes.Add(new Regiao
@@ -67,7 +69,7 @@ namespace IntegrationTestsV2
                 Nome = "Yuri",
                 Telefone = "999999999",
                 Email = "yuri@email.com",
-                RegiaoId = regiaoSP.Entity.Id,
+                RegiaoId = 1,
                 Regiao = regiaoSP.Entity
             });
 
@@ -76,7 +78,7 @@ namespace IntegrationTestsV2
                 Nome = "Yago",
                 Telefone = "999999999",
                 Email = "yago@email.com",
-                RegiaoId = regiaoRJ.Entity.Id,
+                RegiaoId = 2,
                 Regiao = regiaoRJ.Entity
             });
 

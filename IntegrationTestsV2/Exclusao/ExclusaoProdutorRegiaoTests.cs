@@ -24,18 +24,5 @@ namespace IntegrationTestsV2.Cadastro
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task Delete_ShouldReturnBadRequest_WhenIdDoesNotExist()
-        //{
-        //    // Arrange
-        //    int regiaoID = 9999;
-
-        //    // Act
-        //    var response = await _client.DeleteAsync($"/Regiao/{regiaoID}");
-
-        //    // Assert
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
-
     }
 }
