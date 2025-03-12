@@ -57,6 +57,8 @@ namespace IntegrationTestsV2
                 DataInclusao = DateTime.UtcNow
             });
 
+            await context.SaveChangesAsync();
+
             context.Contatos.Add(new Contato
             {
                 Nome = "Yuri",
