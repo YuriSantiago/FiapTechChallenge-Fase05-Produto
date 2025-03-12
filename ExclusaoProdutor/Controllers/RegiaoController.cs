@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CadastroProdutor.Controllers
+namespace ExclusaoProdutor.Controllers
 {
 
     [ApiController]
@@ -28,7 +28,7 @@ namespace CadastroProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Put([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {

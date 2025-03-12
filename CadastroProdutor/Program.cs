@@ -8,6 +8,7 @@ using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -60,3 +61,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+namespace CadastroProdutor
+{
+    public partial class Program { }
+}
+

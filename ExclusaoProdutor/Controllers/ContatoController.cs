@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CadastroProdutor.Controllers
+namespace ExclusaoProdutor.Controllers
 {
 
     [ApiController]

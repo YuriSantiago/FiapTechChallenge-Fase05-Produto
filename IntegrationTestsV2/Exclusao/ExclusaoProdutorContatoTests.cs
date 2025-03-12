@@ -1,0 +1,41 @@
+﻿using System.Net;
+
+namespace IntegrationTestsV2.Cadastro
+{
+    public class ExclusaoProdutorContatoTests : IClassFixture<CustomWebApplicationFactory<ExclusaoProdutor.Program>>
+    {
+        private readonly HttpClient _client;
+
+        public ExclusaoProdutorContatoTests(CustomWebApplicationFactory<ExclusaoProdutor.Program> factory)
+        {
+            _client = factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task Delete_ShouldReturnOk_WhenIdExists()
+        {
+            // Arrange
+            int contatoId = 2;
+
+            // Act
+            var response = await _client.DeleteAsync($"/Contato/{contatoId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        //[Fact]
+        //public async Task Delete_ShouldReturnNotFound_WhenIdDoesNotExist()
+        //{
+        //    // Arrange
+        //    int contatoId = 9999;
+
+        //    // Act
+        //    var response = await _client.DeleteAsync($"/Contato/{contatoId}");
+
+        //    // Assert
+        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        //}
+
+    }
+}

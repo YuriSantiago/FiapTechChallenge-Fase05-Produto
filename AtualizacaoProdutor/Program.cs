@@ -47,3 +47,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+namespace AtualizacaoProdutor
+{
+    public partial class Program { }
+}

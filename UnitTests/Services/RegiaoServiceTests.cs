@@ -5,7 +5,7 @@ using Core.Requests.Update;
 using Core.Services;
 using Moq;
 
-namespace FiapTechChallenge.Tests.Services
+namespace ServiceTests.Services
 {
     public class RegiaoServiceTests
     {
