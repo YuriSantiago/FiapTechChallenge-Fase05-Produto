@@ -40,8 +40,6 @@ namespace CadastroProdutor.Controllers
             {
                 var regiao = _regiaoService.GetByDDD(contatoRequest.DDD);
 
-                _regiaoService.GetById(1)
-
                 if (regiao is null)
                     return NotFound("DDD não encontrado");
 
