@@ -20,6 +20,12 @@ jobs:
         env:
           ACCEPT_EULA: Y
           MSSQL_SA_PASSWORD: 1StrongPwd!!
+
+      rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+          - 5672:5672
+          - 15672:15672
           
     steps:
       - name: Realizando a busca do código-fonte
@@ -39,8 +45,8 @@ jobs:
       - name: Executando testes unitários
         run:   dotnet test ./UnitTests/UnitTests.csproj
 
-      #- name: Executando testes de integração
-       # run:  dotnet test ./FiapTechChallenge.IntegrationTests/FiapTechChallenge.IntegrationTests.csproj
+      - name: Executando testes de integração
+        run:  dotnet test ./IntegrationTestsV2/IntegrationTestsV2.csproj
 
       - name: Mensagem final
         run: echo Integração finalizada com sucesso
