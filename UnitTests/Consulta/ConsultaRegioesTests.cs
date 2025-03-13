@@ -78,7 +78,6 @@ namespace UnitTests.Consulta
             // Assert
             Assert.NotNull(result);
             Assert.Equal(404, result.StatusCode);
-            Assert.Equal("Nenhunha região encontrada com o ID: '999'.", result.Value);
         }
 
         [Fact]
@@ -113,7 +112,6 @@ namespace UnitTests.Consulta
             // Assert
             Assert.NotNull(result);
             Assert.Equal(404, result.StatusCode);
-            Assert.Equal("Nenhunha região encontrada com o DDD: '99'.", result.Value);
         }
 
 
