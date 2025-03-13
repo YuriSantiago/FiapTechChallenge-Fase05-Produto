@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace IntegrationTestsV2
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public class CustomWebApplicationFactoryForConsultaContatos : WebApplicationFactory<ConsultaFunction.ConsultaContatos>
     {
-
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
+                // Remover o DbContext padrão e substituir pelo banco em memória
                 var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
                 if (descriptor != null)
@@ -25,26 +24,29 @@ namespace IntegrationTestsV2
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
+                // Construir o ServiceProvider
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();
                 var scopedServices = scope.ServiceProvider;
                 var db = scopedServices.GetRequiredService<ApplicationDbContext>();
 
-                db.Database.EnsureDeleted();  
-                db.Database.EnsureCreated();  
+                // Garantir que o banco esteja limpo e criado
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
 
+                // Preencher com dados de teste
                 SeedDatabase(db).Wait();
             });
-
         }
 
         private static async Task SeedDatabase(ApplicationDbContext context)
         {
-
+            // Limpar dados existentes
             context.Contatos.RemoveRange(context.Contatos);
             context.Regioes.RemoveRange(context.Regioes);
             await context.SaveChangesAsync();
 
+            // Adicionar dados fictícios
             var regiaoSP = context.Regioes.Add(new Regiao
             {
                 DDD = 11,
@@ -81,6 +83,5 @@ namespace IntegrationTestsV2
 
             await context.SaveChangesAsync();
         }
-
     }
 }

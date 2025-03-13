@@ -1,5 +1,4 @@
 using Core.Interfaces.Services;
-using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;

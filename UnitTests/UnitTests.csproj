@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AtualizacaoProdutor\AtualizacaoProdutor.csproj" />
     <ProjectReference Include="..\CadastroProdutor\CadastroProdutor.csproj" />
+    <ProjectReference Include="..\ConsultaFunction\ConsultaFunction.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\ExclusaoProdutor\ExclusaoProdutor.csproj" />
   </ItemGroup>
