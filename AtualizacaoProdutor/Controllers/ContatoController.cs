@@ -30,7 +30,6 @@ namespace AtualizacaoProdutor.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ContatoUpdateRequest contatoUpdateRequest)
         {
-            // Comentário de teste CI
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
