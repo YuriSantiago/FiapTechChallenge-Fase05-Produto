@@ -15,9 +15,9 @@ namespace CadastroConsumidor.Eventos
 
         public Task Consume(ConsumeContext<ContatoRequest> context)
         {
-            //_contatoService.Create(context.Message);
-            //return Task.CompletedTask;
-            throw new Exception("Erro forçado no processamento da mensagem de contato.");
+            _contatoService.Create(context.Message);
+            return Task.CompletedTask;
+            //throw new Exception("Erro forçado no processamento da mensagem de contato.");
         }
     }
 }
