@@ -1,3 +1,4 @@
+using ConsultaFunction;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
@@ -23,6 +24,10 @@ var host = new HostBuilder()
         services.AddScoped<IRegiaoService, RegiaoService>();
         services.AddScoped<IContatoRepository, ContatoRepository>();
         services.AddScoped<IContatoService, ContatoService>();
+
+        services.AddHostedService<MetricsServer>();
+
+
     })
     .Build();
 

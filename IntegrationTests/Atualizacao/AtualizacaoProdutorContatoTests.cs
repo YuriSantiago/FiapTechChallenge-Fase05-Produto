@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http.Json;
 
-namespace IntegrationTestsV2.Cadastro
+namespace IntegrationTests.Cadastro
 {
     public class AtualizacaoProdutorContatoTests : IClassFixture<CustomWebApplicationFactory<AtualizacaoProdutor.Program>>
     {

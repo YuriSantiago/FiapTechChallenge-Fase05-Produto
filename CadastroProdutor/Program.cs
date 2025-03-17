@@ -7,6 +7,7 @@ using FluentValidation;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
+using Prometheus;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +58,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseMetricServer();
+app.UseHttpMetrics();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

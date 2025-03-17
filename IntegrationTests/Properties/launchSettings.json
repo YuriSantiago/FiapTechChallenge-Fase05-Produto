@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "FiapTechChallenge.IntegrationTests": {
+    "IntegrationTestsV2": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:56687;http://localhost:56688"
+      "applicationUrl": "https://localhost:65055;http://localhost:65056"
     }
   }
 }

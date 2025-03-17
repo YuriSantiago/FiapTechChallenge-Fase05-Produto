@@ -1,12 +1,12 @@
 ﻿using System.Net;
 
-namespace IntegrationTestsV2.Cadastro
+namespace IntegrationTests.Cadastro
 {
-    public class ExclusaoProdutorRegiaoTests : IClassFixture<CustomWebApplicationFactory<ExclusaoProdutor.Program>>
+    public class ExclusaoProdutorContatoTests : IClassFixture<CustomWebApplicationFactory<ExclusaoProdutor.Program>>
     {
         private readonly HttpClient _client;
 
-        public ExclusaoProdutorRegiaoTests(CustomWebApplicationFactory<ExclusaoProdutor.Program> factory)
+        public ExclusaoProdutorContatoTests(CustomWebApplicationFactory<ExclusaoProdutor.Program> factory)
         {
             _client = factory.CreateClient();
         }
@@ -15,10 +15,10 @@ namespace IntegrationTestsV2.Cadastro
         public async Task Delete_ShouldReturnOk_WhenIdExists()
         {
             // Arrange
-            int regiaoId = 2;
+            int contatoId = 2;
 
             // Act
-            var response = await _client.DeleteAsync($"/Regiao/{regiaoId}");
+            var response = await _client.DeleteAsync($"/Contato/{contatoId}");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
