@@ -46,7 +46,7 @@ jobs:
         run:   dotnet test ./UnitTests/UnitTests.csproj
 
       - name: Executando testes de integração
-        run:  dotnet test --logger "console;verbosity=detailed" ./IntegrationTestsV2/IntegrationTestsV2.csproj
+        run:  dotnet test ./IntegrationTests/IntegrationTests.csproj
 
       - name: Mensagem final
         run: echo Integração finalizada com sucesso
