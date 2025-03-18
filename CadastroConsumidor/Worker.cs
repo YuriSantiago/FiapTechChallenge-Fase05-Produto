@@ -1,9 +1,3 @@
-using Core.Requests.Create;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
-using System.Text.Json;
-
 namespace CadastroConsumidor
 {
     public class Worker : BackgroundService
