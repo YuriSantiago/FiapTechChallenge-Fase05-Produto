@@ -22,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AtualizacaoProdutor\AtualizacaoProdutor.csproj" />
     <ProjectReference Include="..\CadastroProdutor\CadastroProdutor.csproj" />
-    <ProjectReference Include="..\ExclusaoProdutor\ExclusaoProdutor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
