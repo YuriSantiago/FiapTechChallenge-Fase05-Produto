@@ -35,7 +35,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
+    options.UseSqlServer(configuration.GetConnectionString("ConnectionString"),
+        sql => sql.EnableRetryOnFailure());
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IRegiaoRepository, RegiaoRepository>();
@@ -49,19 +50,21 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<ContatoRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<RegiaoRequestValidator>();
 
+builder.WebHost.UseUrls("http://*:8080");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseRouting();
 app.UseMetricServer();
 app.UseHttpMetrics();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

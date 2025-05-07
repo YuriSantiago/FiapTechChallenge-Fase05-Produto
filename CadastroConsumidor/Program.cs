@@ -21,7 +21,8 @@ builder.Services.AddScoped<IContatoService, ContatoService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
+    options.UseSqlServer(configuration.GetConnectionString("ConnectionString"),
+        sql => sql.EnableRetryOnFailure());
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddMassTransit(x =>
