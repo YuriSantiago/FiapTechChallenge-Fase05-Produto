@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();
 
-var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+var configuration = builder.Configuration;
 var queueContato = configuration.GetSection("MassTransit:Queues")["ContatoQueue"] ?? string.Empty;
 var queueRegiao = configuration.GetSection("MassTransit:Queues")["RegiaoQueue"] ?? string.Empty;
 

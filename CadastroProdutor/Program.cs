@@ -12,7 +12,8 @@ using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+var configuration = builder.Configuration;
 
 builder.Services.AddMassTransit(x =>
 {
@@ -54,17 +55,13 @@ builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-//}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseRouting();
 app.UseMetricServer();
 app.UseHttpMetrics();
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
