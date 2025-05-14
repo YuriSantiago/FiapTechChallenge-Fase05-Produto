@@ -12,7 +12,6 @@ using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var configuration = builder.Configuration;
 
 builder.Services.AddMassTransit(x =>
