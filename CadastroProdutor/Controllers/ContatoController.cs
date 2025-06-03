@@ -14,7 +14,6 @@ namespace CadastroProdutor.Controllers
         private readonly IConfiguration _configuration;
         private readonly IRegiaoService _regiaoService;
 
-        // teste de CI
         public ContatoController(IBus bus, IConfiguration configuration, IRegiaoService regiaoService)
         {
             _bus = bus;
