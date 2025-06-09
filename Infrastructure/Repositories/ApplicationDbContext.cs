@@ -17,8 +17,7 @@ namespace Infrastructure.Repositories
             _connectionString = connectionString;
         }
 
-        public DbSet<Contato> Contatos { get; set; }
-        public DbSet<Regiao> Regioes { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
