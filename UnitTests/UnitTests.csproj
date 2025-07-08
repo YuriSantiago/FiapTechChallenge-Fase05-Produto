@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CadastroProdutor\CadastroProdutor.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\ProdutoProdutor\ProdutoProdutor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

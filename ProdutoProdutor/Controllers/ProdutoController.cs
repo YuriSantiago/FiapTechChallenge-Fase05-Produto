@@ -3,9 +3,10 @@ using Core.Requests.Create;
 using Core.Requests.Delete;
 using Core.Requests.Update;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CadastroProdutor.Controllers
+namespace ProdutoProdutor.Controllers
 {
     [ApiController]
     [Route("/[controller]")]
@@ -98,6 +99,7 @@ namespace CadastroProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpPost]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public async Task<IActionResult> Post([FromBody] ProdutoRequest produtoRequest)
         {
 
@@ -133,6 +135,7 @@ namespace CadastroProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpPut]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public async Task<IActionResult> Put([FromBody] ProdutoUpdateRequest produtoUpdateRequest)
         {
             if (!ModelState.IsValid)
@@ -161,6 +164,7 @@ namespace CadastroProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
 

@@ -47,7 +47,7 @@ namespace Core.Services
             return produtosDTO;
         }
 
-        public ProdutoDTO GetById(int id)
+        public ProdutoDTO GetById(int id)   
         {
             var produto = _produtoRepository.GetById(id, c => c.Include(r => r.Categoria));
 
