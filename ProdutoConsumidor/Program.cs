@@ -1,12 +1,11 @@
-using CadastroConsumidor;
-using CadastroConsumidor.Eventos;
+using ProdutoConsumidor;
+using ProdutoConsumidor.Eventos;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
 using Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using ProdutoConsumidor.Eventos;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();

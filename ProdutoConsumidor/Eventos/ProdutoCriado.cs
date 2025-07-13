@@ -2,7 +2,7 @@
 using Core.Requests.Create;
 using MassTransit;
 
-namespace CadastroConsumidor.Eventos
+namespace ProdutoConsumidor.Eventos
 {
     public class ProdutoCriado : IConsumer<ProdutoRequest>
     {

@@ -1,7 +1,7 @@
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
-//using Core.Validators;
+using Core.Validators;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Infrastructure.Repositories;
@@ -95,28 +95,22 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Registro dos validadores
-//builder.Services.AddValidatorsFromAssemblyContaining<ContatoRequestValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<RegiaoRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<ProdutoDeleteRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<ProdutoRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<ProdutoUpdateRequestValidator>();
 
 //builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-
 app.UseMetricServer();
 app.UseHttpMetrics();
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 //app.UseHttpsRedirection();
-
 app.MapControllers();
 app.Run();
 

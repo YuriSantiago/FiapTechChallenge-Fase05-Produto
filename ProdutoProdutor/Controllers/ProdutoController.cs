@@ -163,16 +163,16 @@ namespace ProdutoProdutor.Controllers
         /// <response code="400">Erro ao deletar o produto</response>
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [HttpDelete("{id:int}")]
+        [HttpDelete]
         [Authorize(Roles = "ADMIN, FUNCIONARIO")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromBody] ProdutoDeleteRequest produtoDeleteRequest)
         {
 
             try
             {
                 var nomeFila = _configuration.GetSection("MassTransit:Queues")["ProdutoExclusaoQueue"] ?? string.Empty;
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
-                await endpoint.Send(new ProdutoDeleteRequest { Id = id });
+                await endpoint.Send(new ProdutoDeleteRequest { Id = produtoDeleteRequest.Id });
 
                 return Ok();
             }

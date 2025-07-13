@@ -295,7 +295,7 @@ namespace UnitTests.Controllers
             _mockConfiguration.Setup(c => c.GetSection("MassTransit:Queues")["ProdutoExclusaoQueue"]).Returns("filaExclusaoProduto");
 
             // Act
-            var result = await _produtoController.Delete(id);
+            var result = await _produtoController.Delete(new ProdutoDeleteRequest { Id = id });
 
             // Assert
             var ok = Assert.IsType<OkResult>(result);
@@ -312,7 +312,7 @@ namespace UnitTests.Controllers
             _mockBus.Setup(b => b.GetSendEndpoint(It.IsAny<Uri>())).ThrowsAsync(new Exception("Falha ao deletar"));
 
             // Act
-            var result = await _produtoController.Delete(id);
+            var result = await _produtoController.Delete(new ProdutoDeleteRequest { Id = id });
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
