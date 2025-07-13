@@ -99,7 +99,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<ProdutoDeleteRequestValidat
 builder.Services.AddValidatorsFromAssemblyContaining<ProdutoRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<ProdutoUpdateRequestValidator>();
 
-//builder.WebHost.UseUrls("http://*:8080");
+builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
