@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -13,7 +14,7 @@ namespace Infrastructure.Repositories
 
         public IList<Produto> GetAllByCategory(short categoria)
         {
-            return [.. _context.Produtos.Where(r => r.CategoriaId == categoria)];
+            return [.. _context.Produtos.Where(p => p.CategoriaId == categoria).Include(p => p.Categoria)];
         }
 
     }

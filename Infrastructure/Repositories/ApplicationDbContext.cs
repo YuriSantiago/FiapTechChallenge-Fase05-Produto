@@ -17,6 +17,8 @@ namespace Infrastructure.Repositories
             _connectionString = connectionString;
         }
 
+        public DbSet<Categoria> Categorias { get; set; }
+
         public DbSet<Produto> Produtos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
