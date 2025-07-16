@@ -12,9 +12,9 @@ namespace Infrastructure.Repositories
 
         }
 
-        public IList<Produto> GetAllByCategory(short categoria)
+        public IList<Produto> GetAllByCategory(int categoriaId)
         {
-            return [.. _context.Produtos.Where(p => p.CategoriaId == categoria).Include(p => p.Categoria)];
+            return [.. _context.Produtos.Where(p => p.CategoriaId == categoriaId).Include(p => p.Categoria)];
         }
 
     }

@@ -11,7 +11,7 @@ namespace Core.Interfaces.Services
 
         ProdutoDTO GetById(int id);
 
-        IList<ProdutoDTO> GetAllByCategory(short categoria);
+        IList<ProdutoDTO> GetAllByCategory(int categoriaId);
 
         void Create(ProdutoRequest produtoRequest);
 

@@ -77,12 +77,12 @@ namespace ProdutoProdutor.Controllers
         /// <response code="400">Erro ao buscar a lista de produtos por categoria</response>
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [HttpGet("getAllByCategory/{categoria}")]
-        public IActionResult Get([FromRoute] short categoria)
+        [HttpGet("getAllByCategory/{categoriaId}")]
+        public IActionResult GetAllByCategory([FromRoute] int categoriaId)
         {
             try
             {
-                return Ok(_produtoService.GetAllByCategory(categoria));
+                return Ok(_produtoService.GetAllByCategory(categoriaId));
             }
             catch (Exception ex)
             {

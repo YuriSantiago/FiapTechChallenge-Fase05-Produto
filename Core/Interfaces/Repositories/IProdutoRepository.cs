@@ -5,7 +5,7 @@ namespace Core.Interfaces.Repositories
     public interface IProdutoRepository : IRepository<Produto>
     {
 
-        IList<Produto> GetAllByCategory(short categoria);
+        IList<Produto> GetAllByCategory(int categoriaId);
 
     }
 }

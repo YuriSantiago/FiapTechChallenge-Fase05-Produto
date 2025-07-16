@@ -70,10 +70,10 @@ namespace Core.Services
             return produtoDTO;
         }
 
-        public IList<ProdutoDTO> GetAllByCategory(short categoria)
+        public IList<ProdutoDTO> GetAllByCategory(int categoriaId)
         {
             var produtosDTO = new List<ProdutoDTO>();
-            var produtos = _produtoRepository.GetAllByCategory(categoria);
+            var produtos = _produtoRepository.GetAllByCategory(categoriaId);
 
             foreach (var produto in produtos)
             {
