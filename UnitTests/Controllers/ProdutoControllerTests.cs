@@ -136,7 +136,7 @@ namespace UnitTests.Controllers
             _mockProdutoService.Setup(s => s.GetAllByCategory(1)).Returns(produtos);
 
             // Act
-            var result = _produtoController.Get((short)1);
+            var result = _produtoController.GetAllByCategory(1);
 
             // Assert
             var ok = Assert.IsType<OkObjectResult>(result);
@@ -148,10 +148,10 @@ namespace UnitTests.Controllers
         public void GetAllByCategory_ShouldReturnBadRequest_WhenServiceThrowsException()
         {
             // Arrange
-            _mockProdutoService.Setup(s => s.GetAllByCategory(It.IsAny<short>())).Throws(new Exception("Erro ao buscar por role"));
+            _mockProdutoService.Setup(s => s.GetAllByCategory(It.IsAny<int>())).Throws(new Exception("Erro ao buscar por role"));
 
             // Act
-            var result = _produtoController.Get((short)1);
+            var result = _produtoController.GetAllByCategory(1);
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
