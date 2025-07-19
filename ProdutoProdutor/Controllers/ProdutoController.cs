@@ -12,6 +12,7 @@ namespace ProdutoProdutor.Controllers
     [Route("/[controller]")]
     public class ProdutoController : ControllerBase
     {
+        // Comentário para teste de esteira
         private readonly IBus _bus;
         private readonly IConfiguration _configuration;
         private readonly ICategoriaService _categoriaService;
